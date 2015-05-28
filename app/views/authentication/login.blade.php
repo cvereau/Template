@@ -102,7 +102,7 @@
                         }
                         else{
                             //we store the userId on the session
-                            window.location="{{URL::to('users')}}";
+                            window.location="{{URL::to('usuarios')}}";
                         }
                     },
                     error: function (data) {

@@ -18,6 +18,8 @@
     <!-- MetisMenu CSS -->
     {{ HTML::style('assets/bower_components/metisMenu/dist/metisMenu.min.css') }}
 
+    @yield('usersStyleSection')
+
     <!-- Timeline CSS -->
     {{ HTML::style('assets/dist/css/timeline.css') }}
 
@@ -29,6 +31,8 @@
 
     <!-- Custom Fonts -->
     {{ HTML::style('assets/bower_components/font-awesome/css/font-awesome.min.css') }}
+
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -367,6 +371,18 @@
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
+                    <li>
+                        <a id="seguridadLink" href="#"><i class="fa fa-lock fa-fw"></i> Seguridad<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a id="usuariosLink" href="{{URL::to('usuarios')}}">Usuarios</a>
+                            </li>
+                            <li>
+                                <a id="rolesLink" href="login.html">Roles</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
@@ -396,6 +412,24 @@
 
 <!-- Custom Theme JavaScript -->
 {{ HTML::script('assets/dist/js/sb-admin-2.js') }}
+
+@yield('usersScriptSection')
+
+<script>
+    // set the current class on the appropriate li
+    var currentUrl = window.location.href;
+    if (currentUrl.indexOf("usuarios") >= 0) {
+        $("#usuariosLink").closest("li").addClass("active");
+        $("#usuariosLink").closest("li").parent("ul").addClass("in").attr("aria-expanded","true");
+
+    }
+    else if (currentUrl.indexOf("roles") >= 0) {
+        $("#rolesLink").closest("li").addClass("current");
+    }
+//    else if (currentUrl.indexOf("AwardHistory.aspx") >= 0) {
+//        $("#awardHistoryLink").closest("li").addClass("current");
+//    }
+</script>
 
 </body>
 

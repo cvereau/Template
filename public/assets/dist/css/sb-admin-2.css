@@ -39,6 +39,11 @@ body {
 
 .validation-error {color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.5);border-radius:4px;font-size:12px;font-weight:bold;line-height:1.4em;text-align:center;text-align:left;padding:5px;background:#cf2424;border:1px solid #831919;box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 3px 7px rgba(0,0,0,.4);}
 
+.mb-md {
+    margin-bottom: 15px !important;
+    margin-top: 15px !important;
+}
+
 .navbar-top-links {
     margin-right: 0;
 }

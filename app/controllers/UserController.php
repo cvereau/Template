@@ -12,6 +12,11 @@ class UserController extends BaseController {
         return View::make('users.index');
     }
 
+    public function newOrEdit()
+    {
+        return View::make('users.details');
+    }
+
     public function getAllUsers()
     {
         //we get all the users from the database
