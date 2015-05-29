@@ -396,6 +396,12 @@
 </div>
 <!-- /#wrapper -->
 
+<!--knockout-->
+{{ HTML::script('http://knockoutjs.com/downloads/knockout-3.3.0.js') }}
+
+<!-- KnockoutJS Mapping http://knockoutjs.com/documentation/plugins-mapping.html -->
+{{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/knockout.mapping/2.4.1/knockout.mapping.min.js') }}
+
 <!-- jQuery -->
 {{ HTML::script('assets/bower_components/jquery/dist/jquery.min.js') }}
 

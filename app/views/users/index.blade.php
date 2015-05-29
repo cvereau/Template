@@ -28,50 +28,42 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
-                            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <table class="table table-striped table-bordered table-hover" id="usersData">
                                 <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Usuario</th>
+                                    <th>Username</th>
                                     <th>Password</th>
                                     <th>Email</th>
-                                    <th>Estado</th>
-                                    <th>Creado En</th>
+                                    <th>Active?</th>
+                                    <th>Fecha de Creación</th>
+                                    <th>Acciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr class="odd gradeX">
-                                    <td>1</td>
-                                    <td>huadmin</td>
-                                    <td>cu12#</td>
-                                    <td>huadmin@hipolitounanue.com</td>
-                                    <td><span class="label label-success">Activo</span></td>
-                                    <td>18/05/2015</td>
+                                {{--<tr data-bind="visible: loadingUsers()">--}}
+                                    {{--<td colspan="7" style="text-align: center">--}}
+                                    {{--<img src="{{asset("assets/img/ajax-loader.gif")}}" alt=""/>--}}
+                                    {{--</td>--}}
+                                {{--</tr>--}}
+                                {{--<tr data-bind="visible: !loadingUsers() && matchingUsers().length < 1">--}}
+                                    {{--<td colspan="7">--}}
+                                    {{--No se encontraron usuarios--}}
+                                    {{--</td>--}}
+                                {{--</tr>--}}
+                                <!-- ko foreach: { data: matchingUsers, as: 'user' } -->
+                                <tr class ="user gradeA">
+                                    <td data-bind="text: user.id"></td>
+                                    <td data-bind="text: user.username"></td>
+                                    <td data-bind="text: user.password"></td>
+                                    <td data-bind="text: user.email"></td>
+                                    <td data-bind="text: user.active"></td>
+                                    <td data-bind="text: user.created_at"></td>
+                                    <td class="actions">
+                                        <a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                    </td>
                                 </tr>
-                                <tr class="even gradeC">
-                                    <td>2</td>
-                                    <td>testuser</td>
-                                    <td>test</td>
-                                    <td>test@hipolitounanue.com</td>
-                                    <td><span class="label label-success">Activo</span></td>
-                                    <td>20/05/2015</td>
-                                </tr>
-                                <tr class="odd gradeA">
-                                    <td>3</td>
-                                    <td>invitado</td>
-                                    <td>invitado12#</td>
-                                    <td>invitado@hipolitounanue.com</td>
-                                    <td><span class="label label-success">Activo</span></td>
-                                    <td>22/05/2015</td>
-                                </tr>
-                                <tr class="even gradeA">
-                                    <td>4</td>
-                                    <td>deshabilitado</td>
-                                    <td>deshabilitado#</td>
-                                    <td>deshabilitado@hipolitounanue.com</td>
-                                    <td><span class="label label-danger">Inactivo</span></td>
-                                    <td>24/05/2015</td>
-                                </tr>
+                                <!-- /ko -->
                                 </tbody>
                             </table>
                         </div>
@@ -88,14 +80,59 @@
 @stop
 @section('usersScriptSection')
     <!-- DataTables JavaScript -->
-    {{ HTML::script('assets/bower_components/datatables/media/js/jquery.dataTables.min.js') }}
-    {{ HTML::script('assets/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js') }}
+    <!-- jQuery DataTables http://datatables.net -->
+    {{ HTML::script('http://cdn.datatables.net/1.10.2/js/jquery.dataTables.js') }}
+
+    <!-- Bootstrap DataTables http://www.datatables.net/manual/styling/bootstrap -->
+    {{ HTML::script('http://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.js') }}
+
+    <!-- Responsive DataTables http://www.datatables.net/extensions/responsive/ -->
+    {{ HTML::script('http://cdn.datatables.net/responsive/1.0.1/js/dataTables.responsive.js') }}
 
     <script>
+        function UsersViewModel(){
+            var me = this;
 
-        $(document).ready(function() {
-            //Inicializamos y eteamos el lenguaje de nuestra tabla
-            $('#dataTables-example').DataTable({
+            me.matchingUsers = ko.observableArray([]);
+            me.loadingUsers = ko.observable(false);
+
+            me.getUsers = function () {
+                    me.loadingUsers(true);
+                    $.ajax({
+                        type: "GET",
+                        url:"http://localhost:8080/Template/public/api/v1/getUsers",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            me.loadingUsers(false);
+                            me.matchingUsers.removeAll();
+                            for (var i = 0; i < data.users.length; i++) {
+                                me.matchingUsers.push(data.users[i]);
+                            }
+                        },
+                        error: function (data) {
+                            me.loadingUsers(false);
+                            console.log(data);
+                            console.log(data.d);
+                            console.log("error ;(");
+                        }
+                    }).done(function(){ initializeDataTable(); });
+                //}
+            }
+
+            me.getUsers();
+
+            return {
+                matchingUsers: me.matchingUsers,
+                loadingUsers: me.loadingUsers,
+                getUsers: me.getUsers
+            };
+        }
+
+        var viewModel = new UsersViewModel();
+
+        function initializeDataTable(){
+            $('#usersData').DataTable({
                 responsive: true,
                 "language": {
                     "sProcessing":     "Procesando...",
@@ -111,18 +148,24 @@
                     "sInfoThousands":  ",",
                     "sLoadingRecords": "Cargando...",
                     "oPaginate": {
-                    "sFirst":    "Primero",
+                        "sFirst":    "Primero",
                         "sLast":     "Último",
                         "sNext":     "Siguiente",
                         "sPrevious": "Anterior"
                     },
                     "oAria": {
-                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
                         "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                     }
                 }
             });
+        }
+        $(function () {
+            //we bind the viewmodel to the view
+            ko.applyBindings(viewModel , $("#page-wrapper")[0]);
+
         });
+
     </script>
 
 @stop

@@ -17,9 +17,7 @@ Route::get('/','LoginController@index');
 
 //Users
 Route::get('usuarios','UserController@index');
-Route::get('usuarios/{name}', 'UserController@newOrEdit');
-
-
+Route::get('usuarios/{name}','UserController@newOrEdit');
 
 //api
 Route::group(array('prefix' => 'api/v1'),function()
