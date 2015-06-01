@@ -31,4 +31,53 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
             return null;
         }
     }
+
+    public function GetAllUsers()
+    {
+        $users = DB::table('users')
+            ->join('roles', 'users.role_id', '=', 'roles.id')
+            ->select('users.id', 'roles.name', 'users.username','users.password','users.email','users.active', 'users.created_at')
+            ->get();
+
+        return $users;
+    }
+
+    public function GetUserByUsername($username)
+    {
+        $matchingUser = User::where('username', '=', $username)->first();
+
+        return $matchingUser;
+    }
+
+    public function GetUserById($id)
+    {
+        $matchingUser = User::where('id','=',$id)->first();
+
+        return $matchingUser;
+    }
+
+    public function SaveUser($rawUser)
+    {
+        $existingUser = User::where('id','=', $rawUser['id'])->first();
+        if (!$existingUser){
+            $existingUser = new User;
+        }
+        $existingUser->username = $rawUser['username'];
+        $existingUser->password = $rawUser['password'];
+        $existingUser->role_id = $rawUser['rol'];
+        $existingUser->email = $rawUser['email'];
+        $existingUser->active = $rawUser['active'];
+        $existingUser->save();
+        return true;
+    }
+
+    public function DeleteUser($userId)
+    {
+        $deleteUser = User::where('id','=',$userId)->first();
+        if($deleteUser){
+            $deleteUser->delete();
+            return true;
+        }
+        return false;
+    }
 }

@@ -12,13 +12,16 @@
 
     <title>SB Admin 2 - Bootstrap Admin Theme</title>
 
+    <!--Favicon--->
+    <link rel="shortcut icon" href="{{{ asset('assets/img/favicon.png') }}}">
+
     <!-- Bootstrap Core CSS -->
     {{ HTML::style('assets/bower_components/bootstrap/dist/css/bootstrap.min.css') }}
 
     <!-- MetisMenu CSS -->
     {{ HTML::style('assets/bower_components/metisMenu/dist/metisMenu.min.css') }}
 
-    @yield('usersStyleSection')
+    @yield('StyleSection')
 
     <!-- Timeline CSS -->
     {{ HTML::style('assets/dist/css/timeline.css') }}
@@ -32,7 +35,8 @@
     <!-- Custom Fonts -->
     {{ HTML::style('assets/bower_components/font-awesome/css/font-awesome.min.css') }}
 
-
+    <!--Toastr -->
+    {{HTML::style('http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css')}}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -56,204 +60,21 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
+            <a class="navbar-brand" href="javascript:void(0);"><img src="{{ asset('assets/img/logo/cu-logo.png') }}" height="35px" style="max-width:100px; margin-top: -7px;"/></a>
+            <span class="navbar-brand" style="margin-left:-15px">Hipólito Unanue</span>
         </div>
         <!-- /.navbar-header -->
 
+
         <ul class="nav navbar-top-links navbar-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-messages">
-                    <li>
-                        <a href="#">
-                            <div>
-                                <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                            </div>
-                            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                            </div>
-                            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                            </div>
-                            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a class="text-center" href="#">
-                            <strong>Read All Messages</strong>
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-messages -->
-            </li>
             <!-- /.dropdown -->
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-tasks">
-                    <li>
-                        <a href="#">
-                            <div>
-                                <p>
-                                    <strong>Task 1</strong>
-                                    <span class="pull-right text-muted">40% Complete</span>
-                                </p>
-                                <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                        <span class="sr-only">40% Complete (success)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <p>
-                                    <strong>Task 2</strong>
-                                    <span class="pull-right text-muted">20% Complete</span>
-                                </p>
-                                <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                        <span class="sr-only">20% Complete</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <p>
-                                    <strong>Task 3</strong>
-                                    <span class="pull-right text-muted">60% Complete</span>
-                                </p>
-                                <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                        <span class="sr-only">60% Complete (warning)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <p>
-                                    <strong>Task 4</strong>
-                                    <span class="pull-right text-muted">80% Complete</span>
-                                </p>
-                                <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                        <span class="sr-only">80% Complete (danger)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a class="text-center" href="#">
-                            <strong>See All Tasks</strong>
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-tasks -->
-            </li>
-            <!-- /.dropdown -->
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-alerts">
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-comment fa-fw"></i> New Comment
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                <span class="pull-right text-muted small">12 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-tasks fa-fw"></i> New Task
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a class="text-center" href="#">
-                            <strong>See All Alerts</strong>
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-alerts -->
-            </li>
-            <!-- /.dropdown -->
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    @if(Session::has('username'))
+                        <span class="nav navbar-top-links navbar-left" >{{ Session::get('username') }} </span>&nbsp;
+                    @endif
                     <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                     <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
@@ -261,13 +82,14 @@
                     <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    <li><a href="{{URL::to('cerrarSesion')}}"><i class="fa fa-sign-out fa-fw"></i> Cerrar Sesión</a>
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->
             </li>
             <!-- /.dropdown -->
         </ul>
+
         <!-- /.navbar-top-links -->
 
         <div class="navbar-default sidebar" role="navigation">
@@ -360,14 +182,29 @@
                         <!-- /.nav-second-level -->
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
+                        <a id="administradorLink" href="#"><i class="fa fa-cog fa-fw"></i> Administrador<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="blank.html">Blank Page</a>
+                                <a href="#">Periodo Matrícula</a>
                             </li>
                             <li>
-                                <a href="login.html">Login Page</a>
+                                <a href="#">Periodo Ingreso Notas</a>
                             </li>
+                            <li>
+                                <a id="mantenimientoLink" href="#">Mantenimiento <span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    <li>
+                                        <a href="#">Asignaturas</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Profesores</a>
+                                    </li>
+                                    <li>
+                                        <a id="sedesLink" href="{{URL::to('sedes')}}">Sedes</a>
+                                    </li>
+                                </ul>
+                            </li>
+                                <!-- /.nav-third-level -->
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
@@ -378,7 +215,7 @@
                                 <a id="usuariosLink" href="{{URL::to('usuarios')}}">Usuarios</a>
                             </li>
                             <li>
-                                <a id="rolesLink" href="login.html">Roles</a>
+                                <a id="rolesLink" href="{{URL::to('roles')}}">Roles</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
@@ -414,27 +251,32 @@
 <!-- Morris Charts JavaScript -->
 {{ HTML::script('assets/bower_components/raphael/raphael-min.js') }}
 {{ HTML::script('assets/bower_components/morrisjs/morris.min.js') }}
-{{ HTML::script('assets/morris-data.js') }}
 
 <!-- Custom Theme JavaScript -->
 {{ HTML::script('assets/dist/js/sb-admin-2.js') }}
 
-@yield('usersScriptSection')
+<!--Toastr-->
+{{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js') }}
+
+
+@yield('ScriptSection')
 
 <script>
     // set the current class on the appropriate li
     var currentUrl = window.location.href;
     if (currentUrl.indexOf("usuarios") >= 0) {
+        $("#seguridadLink").closest("li").attr("aria-expanded","true");
         $("#usuariosLink").closest("li").addClass("active");
-        $("#usuariosLink").closest("li").parent("ul").addClass("in").attr("aria-expanded","true");
-
     }
     else if (currentUrl.indexOf("roles") >= 0) {
-        $("#rolesLink").closest("li").addClass("current");
+        $("#seguridadLink").closest("li").attr("aria-expanded","true");
+        $("#rolesLink").closest("li").addClass("active");
     }
-//    else if (currentUrl.indexOf("AwardHistory.aspx") >= 0) {
-//        $("#awardHistoryLink").closest("li").addClass("current");
-//    }
+    else if (currentUrl.indexOf("sedes") >= 0) {
+        $("#administradorLink").closest("li").addClass("active");
+        $("#mantenimientoLink").closest("li").attr("aria-expanded","true");
+        $("#sedesLink").closest("li").addClass("active");
+    }
 </script>
 
 </body>

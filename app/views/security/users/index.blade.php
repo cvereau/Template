@@ -1,5 +1,5 @@
 @extends('layout.site')
-@section('usersStyleSection')
+@section('StyleSection')
     <!-- DataTables Responsive CSS -->
     {{ HTML::style('assets/bower_components/datatables-responsive/css/dataTables.responsive.css') }}
     <!-- DataTables CSS -->
@@ -32,35 +32,54 @@
                                 <thead>
                                 <tr>
                                     <th>Id</th>
+                                    <th>Rol</th>
                                     <th>Username</th>
                                     <th>Password</th>
                                     <th>Email</th>
-                                    <th>Active?</th>
+                                    <th>Estado</th>
                                     <th>Fecha de Creación</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {{--<tr data-bind="visible: loadingUsers()">--}}
-                                    {{--<td colspan="7" style="text-align: center">--}}
-                                    {{--<img src="{{asset("assets/img/ajax-loader.gif")}}" alt=""/>--}}
-                                    {{--</td>--}}
-                                {{--</tr>--}}
-                                {{--<tr data-bind="visible: !loadingUsers() && matchingUsers().length < 1">--}}
-                                    {{--<td colspan="7">--}}
-                                    {{--No se encontraron usuarios--}}
-                                    {{--</td>--}}
-                                {{--</tr>--}}
+                                <!-- ko if: loadingUsers() -->
+                                <tr>
+                                    <td colspan="8" style="text-align: center">
+                                    <img src="{{asset("assets/img/ajax-loader.gif")}}" alt=""/>
+                                    </td>
+                                </tr>
+                                <!-- /ko -->
+                                <!-- ko if: !loadingUsers() && matchingUsers().length < 1 -->
+                                <tr data-bind="visible: !loadingUsers() && matchingUsers().length < 1">
+                                    <td colspan="8">
+                                        <strong><i class="glyphicon glyphicon-info-sign"></i> No se encontraron usuarios</strong>
+                                    </td>
+                                </tr>
+                                <!-- /ko -->
                                 <!-- ko foreach: { data: matchingUsers, as: 'user' } -->
-                                <tr class ="user gradeA">
-                                    <td data-bind="text: user.id"></td>
+                                <tr class ="user" data-bind="click: $parent.editUser, attr: {'data-id': $index}"  style="cursor:pointer">
+                                    <td class="center" data-bind="text: user.id"></td>
+                                    <td>
+                                        <!-- ko text: user.name -->
+                                        <!-- /ko -->
+                                        <!-- ko if: user.name == 'Administrador'-->
+                                        <i class="glyphicon glyphicon-king"></i>
+                                        <!--/ko-->
+                                    </td>
                                     <td data-bind="text: user.username"></td>
                                     <td data-bind="text: user.password"></td>
                                     <td data-bind="text: user.email"></td>
-                                    <td data-bind="text: user.active"></td>
-                                    <td data-bind="text: user.created_at"></td>
-                                    <td class="actions">
-                                        <a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                    <td class="center">
+                                        <!-- ko if: user.active -->
+                                        <span class='label label-success'>Active</span>
+                                        <!-- /ko -->
+                                        <!-- ko ifnot: user.active -->
+                                        <span class='label label-danger'>Inactive</span>
+                                        <!-- /ko -->
+                                    </td>
+                                    <td class="center" data-bind="text: user.created_at"></td>
+                                    <td class="actions center">
+                                        <a href="javascript:void(0)" data-bind="click: $parent.delete" class="on-default remove-row"><i class="fa fa-trash-o fa-2x"></i></a>
                                     </td>
                                 </tr>
                                 <!-- /ko -->
@@ -78,7 +97,7 @@
         <!-- /.row -->
     </div>
 @stop
-@section('usersScriptSection')
+@section('ScriptSection')
     <!-- DataTables JavaScript -->
     <!-- jQuery DataTables http://datatables.net -->
     {{ HTML::script('http://cdn.datatables.net/1.10.2/js/jquery.dataTables.js') }}
@@ -104,28 +123,66 @@
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
                         success: function (data) {
+                            console.log(data);
+                            console.log(data.users);
+                            var rawUsers = JSON.parse(data.users);
                             me.loadingUsers(false);
                             me.matchingUsers.removeAll();
-                            for (var i = 0; i < data.users.length; i++) {
-                                me.matchingUsers.push(data.users[i]);
+
+                            for (var i = 0; i < rawUsers.length; i++) {
+                                me.matchingUsers.push(rawUsers[i]);
                             }
                         },
                         error: function (data) {
                             me.loadingUsers(false);
                             console.log(data);
-                            console.log(data.d);
                             console.log("error ;(");
                         }
                     }).done(function(){ initializeDataTable(); });
                 //}
-            }
+            };
+
+            me.editUser = function(user) {
+                var username = user.username;
+                window.location="http://localhost:8080/Template/public/usuarios/" + username;
+            };
+
+            me.delete = function (user, event) {
+                event.preventDefault();
+                event.stopPropagation();
+                $trClick = $(event.target).parents('tr.user');
+
+                $.ajax({
+                    type: "GET",
+                    url:"http://localhost:8080/Template/public/api/v1/deleteUser",
+                    data: { userId: user.id},
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        //send the toast
+                        console.log(data.result);
+                        var table = $('#usersData').DataTable();
+                        table.row($trClick).remove().draw( false );
+                        toastr.success('Sus cambios fueron guardados con éxito','Usuario Eliminado');
+                        //var table = $('#userData').DataTable();
+
+
+                        //me.getUsers();
+                    },
+                    error: function () {
+                        console.log("error ;(");
+                    }
+                });
+            };
 
             me.getUsers();
 
             return {
                 matchingUsers: me.matchingUsers,
                 loadingUsers: me.loadingUsers,
-                getUsers: me.getUsers
+                getUsers: me.getUsers,
+                editUser: me.editUser,
+                delete: me.delete
             };
         }
 
@@ -140,8 +197,8 @@
                     "sZeroRecords":    "No se encontraron resultados",
                     "sEmptyTable":     "Ningún dato disponible en esta tabla",
                     "sInfo":           "Mostrando del _START_ al _END_ de  _TOTAL_ registro(s)",
-                    "sInfoEmpty":      "Mostrando 0 registros",
-                    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                    "sInfoEmpty":      "",
+                    "sInfoFiltered":   "",
                     "sInfoPostFix":    "",
                     "sSearch":         "Buscar:",
                     "sUrl":            "",
@@ -157,7 +214,10 @@
                         "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
                         "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                     }
-                }
+                },
+                "aoColumnDefs": [
+                    { 'bSortable': false, 'aTargets': [ 7 ] }
+                ]
             });
         }
         $(function () {

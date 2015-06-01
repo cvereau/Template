@@ -12,6 +12,8 @@
 
     <title>SB Admin 2 - Bootstrap Admin Theme</title>
 
+    <!--Favicon--->
+    <link rel="shortcut icon" href="{{{ asset('assets/img/favicon.png') }}}">
     <!-- Bootstrap Core CSS -->
     {{ HTML::style('assets/bower_components/bootstrap/dist/css/bootstrap.min.css') }}    
 

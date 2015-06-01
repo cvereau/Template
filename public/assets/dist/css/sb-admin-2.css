@@ -44,6 +44,10 @@ body {
     margin-top: 15px !important;
 }
 
+.center{
+    text-align: center;
+}
+
 .navbar-top-links {
     margin-right: 0;
 }

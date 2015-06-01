@@ -9,7 +9,11 @@ class Role extends Eloquent {
      */
     protected $table = 'roles';
 
-    public $timestamps = false;
-    protected $primaryKey = 'id';
-
+    public function GetAllRoles()
+    {
+        //we get all the users from the database
+        $roles = Role::all();
+        //return the list of roles
+        return $roles;
+    }
 }

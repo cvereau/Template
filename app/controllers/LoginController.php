@@ -22,6 +22,7 @@ class LoginController extends BaseController
         if($authUser){
             //we store the userId on the session
             Session::put('userId', $authUser->id);
+            Session::put('username', $authUser->username);
             return Response::json(array(
                 'error' => false,
                 'result' => true,
@@ -37,5 +38,13 @@ class LoginController extends BaseController
             )->setCallback(Input::get('callback'));
         }
 
+    }
+
+    public function logout()
+    {
+        Session::put('userId', null);
+        Session::put('username', null);
+
+        return Redirect::to('/');
     }
 }
