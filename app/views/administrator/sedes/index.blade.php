@@ -31,12 +31,12 @@
                             <table class="table table-striped table-bordered table-hover" id="SedesData">
                                 <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th class="center">Id</th>
                                     <th>Nombre</th>
                                     <th>Responsable</th>
                                     <th>Dirección</th>
                                     <th>Fecha de Creación</th>
-                                    <th>Acciones</th>
+                                    <th class="center">Acciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -56,11 +56,11 @@
                                 <!-- /ko -->
                                 <!-- ko foreach: { data: matchingSedes, as: 'sede' } -->
                                 <tr class ="sede" data-bind="click: $parent.editSede, attr: {'data-id': $index}"  style="cursor:pointer">
-                                    <td class="center" data-bind="text: sede.id"></td>
-                                    <td data-bind="text: sede.name"></td>
-                                    <td data-bind="text: sede.responsible"></td>
-                                    <td data-bind="text: sede.location"></td>
-                                    <td class="center" data-bind="text: sede.created_at"></td>
+                                    <td class="center" data-bind="text: sede.sede_id"></td>
+                                    <td data-bind="text: sede.sede_name"></td>
+                                    <td data-bind="text: sede.sede_responsible"></td>
+                                    <td data-bind="text: sede.sede_location"></td>
+                                    <td data-bind="text: sede.created_at"></td>
                                     <td class="actions center">
                                         <a href="javascript:void(0)" data-bind="click: $parent.delete" class="on-default remove-row"><i class="fa fa-trash-o fa-2x"></i></a>
                                     </td>
@@ -125,8 +125,8 @@
             };
 
             me.editSede = function(sede) {
-                var sedename = sede.name;
-                window.location="http://localhost:8080/Template/public/sedes/" + sedename;
+                var sedeId = sede.sede_id;
+                window.location="http://localhost:8080/Template/public/sedes/" + sedeId;
             };
 
             me.delete = function (sede, event) {

@@ -14,8 +14,8 @@ class SedeTableSeeder extends Seeder{
 
 
         DB::table('sedes')->insert(array(
-            array('name'=>'Sede Surco','responsible'=> 'Rafael Berrospi','location'=>'Av. El polo 251'),
-            array('name'=>'Sede Villa María','responsible'=> 'Cesar Vereau','location'=>'Calle 2 n°196 Urb.La Florida')
+            array('sede_name'=>'Sede Surco','sede_responsible'=> 'Rafael Berrospi','sede_location'=>'Av. El polo 251'),
+            array('sede_name'=>'Sede Villa María','sede_responsible'=> 'Cesar Vereau','sede_location'=>'Calle 2 n°196 Urb.La Florida')
         ));
     }
 }

@@ -40,7 +40,7 @@ Route::group(array('prefix' => 'api/v1'),function()
     Route::get('getRoles','RolController@getAllRoles');
     //Sedes
     Route::get('getSedes','SedeController@getAllSedes');
-    Route::get('getSedeByName','SedeController@getSedeByName');
+    Route::get('getSedeInfoById','SedeController@getSedeByName');
     Route::get('saveSede','SedeController@saveSede');
     Route::get('deleteSede','SedeController@deleteSede');
 });

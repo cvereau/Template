@@ -25,7 +25,7 @@
                             <table class="table table-striped table-bordered table-hover" id="RolesData">
                                 <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th class="center">Id</th>
                                     <th>Nombre</th>
                                     <th>Descripcion</th>
                                 </tr>
@@ -47,15 +47,15 @@
                                 <!-- /ko -->
                                 <!-- ko foreach: { data: matchingRoles, as: 'rol' } -->
                                 <tr class ="rol" >
-                                    <td class="center" data-bind="text: rol.id"></td>
+                                    <td class="center" data-bind="text: rol.role_id"></td>
                                     <td>
-                                        <!-- ko text: rol.name -->
+                                        <!-- ko text: rol.role_name -->
                                         <!-- /ko -->
-                                        <!-- ko if: rol.name == 'Administrador'-->
+                                        <!-- ko if: rol.role_name == 'Administrador'-->
                                         <i class="glyphicon glyphicon-king"></i>
                                         <!--/ko-->
                                     </td>
-                                    <td data-bind="text: rol.description"></td>
+                                    <td data-bind="text: rol.role_description"></td>
                                 </tr>
                                 <!-- /ko -->
                                 </tbody>

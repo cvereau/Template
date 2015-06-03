@@ -19,34 +19,34 @@ class Sede extends Eloquent {
     }
     public function GetSedeByName($SedeName)
     {
-        $matchingSede = Sede::where('name', '=', $SedeName)->first();
+        $matchingSede = Sede::where('sede_name', '=', $SedeName)->first();
 
         return $matchingSede;
     }
 
     public function GetSedeById($id)
     {
-        $matchingSede = Sede::where('id','=',$id)->first();
+        $matchingSede = Sede::where('sede_id','=',$id)->first();
 
         return $matchingSede;
     }
 
     public function SaveSede($rawSede)
     {
-        $existingSede = Sede::where('id','=', $rawSede['id'])->first();
+        $existingSede = Sede::where('sede_id','=', $rawSede['id'])->first();
         if (!$existingSede){
             $existingSede = new Sede;
         }
-        $existingSede->name = $rawSede['name'];
-        $existingSede->responsible = $rawSede['responsible'];
-        $existingSede->location = $rawSede['location'];
+        $existingSede->name = $rawSede['sede_name'];
+        $existingSede->responsible = $rawSede['sede_responsible'];
+        $existingSede->location = $rawSede['sede_location'];
         $existingSede->save();
         return true;
     }
 
     public function DeleteSede($sedeId)
     {
-        $deleteSede = Sede::where('id','=',$sedeId)->first();
+        $deleteSede = Sede::where('sede_id','=',$sedeId)->first();
         if($deleteSede){
             $deleteSede->delete();
             return true;

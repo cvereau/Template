@@ -14,8 +14,8 @@ class RoleTableSeeder extends Seeder{
 
 
         DB::table('roles')->insert(array(
-            array('name'=>'administrador','description'=>'Administrador del sistema con privilegios especiales.'),
-            array('name'=>'usuario','description'=>'Usuario basico del sistema.')
+            array('role_name'=>'Administrador','role_description'=>'Administrador del sistema con privilegios especiales.'),
+            array('role_name'=>'Personal Matrícula','role_description'=>'Usuario basico del sistema.')
         ));
     }
 }

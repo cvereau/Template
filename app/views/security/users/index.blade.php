@@ -31,44 +31,46 @@
                             <table class="table table-striped table-bordered table-hover" id="usersData">
                                 <thead>
                                 <tr>
-                                    <th>Id</th>
-                                    <th>Rol</th>
+                                    <th class="center">Id</th>
                                     <th>Username</th>
                                     <th>Password</th>
                                     <th>Email</th>
+                                    <th>Rol</th>
+                                    <th>Sede</th>
                                     <th>Estado</th>
                                     <th>Fecha de Creación</th>
-                                    <th>Acciones</th>
+                                    <th class="center">Acciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <!-- ko if: loadingUsers() -->
                                 <tr>
-                                    <td colspan="8" style="text-align: center">
+                                    <td colspan="9" style="text-align: center">
                                     <img src="{{asset("assets/img/ajax-loader.gif")}}" alt=""/>
                                     </td>
                                 </tr>
                                 <!-- /ko -->
                                 <!-- ko if: !loadingUsers() && matchingUsers().length < 1 -->
                                 <tr data-bind="visible: !loadingUsers() && matchingUsers().length < 1">
-                                    <td colspan="8">
+                                    <td colspan="9">
                                         <strong><i class="glyphicon glyphicon-info-sign"></i> No se encontraron usuarios</strong>
                                     </td>
                                 </tr>
                                 <!-- /ko -->
                                 <!-- ko foreach: { data: matchingUsers, as: 'user' } -->
                                 <tr class ="user" data-bind="click: $parent.editUser, attr: {'data-id': $index}"  style="cursor:pointer">
-                                    <td class="center" data-bind="text: user.id"></td>
-                                    <td>
-                                        <!-- ko text: user.name -->
-                                        <!-- /ko -->
-                                        <!-- ko if: user.name == 'Administrador'-->
-                                        <i class="glyphicon glyphicon-king"></i>
-                                        <!--/ko-->
-                                    </td>
+                                    <td class="center" data-bind="text: user.user_id"></td>
                                     <td data-bind="text: user.username"></td>
                                     <td data-bind="text: user.password"></td>
                                     <td data-bind="text: user.email"></td>
+                                    <td>
+                                        <!-- ko text: user.role_name -->
+                                        <!-- /ko -->
+                                        <!-- ko if: user.role_name == 'Administrador'-->
+                                        <i class="glyphicon glyphicon-king"></i>
+                                        <!--/ko-->
+                                    </td>
+                                    <td data-bind="text: user.sede_name"></td>
                                     <td class="center">
                                         <!-- ko if: user.active -->
                                         <span class='label label-success'>Active</span>
@@ -77,7 +79,7 @@
                                         <span class='label label-danger'>Inactive</span>
                                         <!-- /ko -->
                                     </td>
-                                    <td class="center" data-bind="text: user.created_at"></td>
+                                    <td data-bind="text: user.created_at"></td>
                                     <td class="actions center">
                                         <a href="javascript:void(0)" data-bind="click: $parent.delete" class="on-default remove-row"><i class="fa fa-trash-o fa-2x"></i></a>
                                     </td>
@@ -155,7 +157,7 @@
                 $.ajax({
                     type: "GET",
                     url:"http://localhost:8080/Template/public/api/v1/deleteUser",
-                    data: { userId: user.id},
+                    data: { userId: user.user_id},
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
@@ -216,7 +218,7 @@
                     }
                 },
                 "aoColumnDefs": [
-                    { 'bSortable': false, 'aTargets': [ 7 ] }
+                    { 'bSortable': false, 'aTargets': [ 8 ] }
                 ]
             });
         }

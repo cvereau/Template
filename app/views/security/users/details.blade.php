@@ -51,7 +51,19 @@
                                             <div class="col-xs-4">
                                                 <select class="form-control" data-bind="value: rol">
                                                     @foreach( $roles as $rol)
-                                                        <option value="{{$rol->id}}">{{$rol->name}}</option>
+                                                        <option value="{{$rol->role_id}}">{{$rol->role_name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Sede</label>
+                                        <div class="row">
+                                            <div class="col-xs-4">
+                                                <select class="form-control" data-bind="value: sede">
+                                                    @foreach( $sedes as $sede)
+                                                        <option value="{{$sede->sede_id}}">{{$sede->sede_name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -88,6 +100,7 @@
             me.email = ko.observable(null);
             me.active = ko.observable(true);
             me.rol = ko.observable(0);
+            me.sede = ko.observable(0);
 
             me.getUserInfo = function (){
                 if (me.requestUsername != "") {
@@ -119,6 +132,7 @@
                 me.active(rawuser.active == 1? true : false);
                 setActiveRadioButtons();
                 me.rol(rawuser.role_id);
+                me.sede(rawuser.sede_id);
             };
 
             me.save = function(){
@@ -128,7 +142,8 @@
                   password: me.password(),
                   email: me.email(),
                   active: me.active()? 1: 0,
-                  rol: me.rol()
+                  rol: me.rol(),
+                  sede: me.sede()
               };
                 console.log(userRaw);
                 $.ajax({
@@ -143,9 +158,6 @@
                         toastr.success('Sus cambios fueron registrados con éxito','Usuario Guardado');
                         //redirect them
                         setTimeout(function () { window.location = "{{URL::to('usuarios')}}"; }, 1000);
-                        //window.location="{{URL::to('usuarios')}}";
-                        // Display a success toast, with a title
-
                     },
                     error: function () {
                         console.log("error ;(");
@@ -161,6 +173,7 @@
                 email:me.email,
                 active:me.active,
                 rol:me.rol,
+                sede:me.sede,
                 getUserInfo: me.getUserInfo,
                 loadUser:me.loadUser,
                 save:me.save

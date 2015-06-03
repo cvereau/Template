@@ -15,11 +15,12 @@ class UserController extends BaseController {
     public function newOrEdit($name)
     {
         $roles = with(new Role)->GetAllRoles();
+        $sedes = with(new Sede)->GetAllSedes();
         if ($name == "nuevo") {
             $name = null;
         }
         //$userToEdit = with(new User)->GetUserByUsername($name);
-        return View::make('security.users.details')->with('name', $name)->with('roles', $roles);
+        return View::make('security.users.details')->with('name', $name)->with('roles', $roles)->with('sedes',$sedes);
     }
 
     public function getAllUsers()

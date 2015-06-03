@@ -15,7 +15,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
      * @var string
      */
     protected $table = 'users';
-
+    protected $primaryKey = 'user_id';
     /*
      * The attributes excluded from the model's JSON form.
      *
@@ -35,8 +35,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public function GetAllUsers()
     {
         $users = DB::table('users')
-            ->join('roles', 'users.role_id', '=', 'roles.id')
-            ->select('users.id', 'roles.name', 'users.username','users.password','users.email','users.active', 'users.created_at')
+            ->join('roles', 'users.role_id', '=', 'roles.role_id')
+            ->join('sedes','users.sede_id','=','sedes.sede_id')
+            ->select('users.user_id', 'roles.role_name', 'sedes.sede_name','users.username','users.password','users.email','users.active', 'users.created_at')
             ->get();
 
         return $users;
@@ -51,20 +52,21 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
     public function GetUserById($id)
     {
-        $matchingUser = User::where('id','=',$id)->first();
+        $matchingUser = User::where('user_id','=',$id)->first();
 
         return $matchingUser;
     }
 
     public function SaveUser($rawUser)
     {
-        $existingUser = User::where('id','=', $rawUser['id'])->first();
+        $existingUser = User::where('user_id','=', $rawUser['id'])->first();
         if (!$existingUser){
             $existingUser = new User;
         }
         $existingUser->username = $rawUser['username'];
         $existingUser->password = $rawUser['password'];
         $existingUser->role_id = $rawUser['rol'];
+        $existingUser->sede_id = $rawUser['sede'];
         $existingUser->email = $rawUser['email'];
         $existingUser->active = $rawUser['active'];
         $existingUser->save();
@@ -73,7 +75,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
     public function DeleteUser($userId)
     {
-        $deleteUser = User::where('id','=',$userId)->first();
+        $deleteUser = User::where('user_id','=',$userId)->first();
         if($deleteUser){
             $deleteUser->delete();
             return true;

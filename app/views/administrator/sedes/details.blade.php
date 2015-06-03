@@ -3,7 +3,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">{{ $name or 'Nuevo Usuario' }}</h1>
+                <h1 class="page-header">{{ $sedeId or 'Nueva Sede' }}</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -12,7 +12,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Datos del Usuario
+                        Datos de la Sede
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -29,17 +29,6 @@
                                     <div class="form-group">
                                         <label>Dirección</label>
                                         <input class="form-control" data-bind="value: location" placeholder="Ingrese una dirección">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Estado</label> <br/>
-                                        <div class="btn-group" data-toggle="buttons">
-                                            <label class="btn btn-success active btn-sm">
-                                                <input type="radio" name="userActive" id="userActive" autocomplete="off" data-bind="checked: active"> Activo
-                                            </label>
-                                            <label class="btn btn-default btn-sm">
-                                                <input type="radio" name="userInactive" id="userInactive" autocomplete="off" data-bind="checked: !active"> Inactivo
-                                            </label>
-                                        </div>
                                     </div>
                                 </form>
                             </div>
@@ -62,29 +51,25 @@
 @stop
 @section('ScriptSection')
     <script>
-        function UserDetailViewModel() {
+        function SedeDetailViewModel() {
             var me =  this;
 
-            me.requestUsername = "{{ $name }}";
+            me.requestSedeId = "{{ $sedeId }}";
             me.id = ko.observable(0);
-            me.username = ko.observable(null);
-            me.password = ko.observable(null);
-            me.email = ko.observable(null);
-            me.active = ko.observable(true);
-            me.rol = ko.observable(0);
+            me.name = ko.observable(null);
+            me.responsible = ko.observable(null);
 
-            me.getUserInfo = function (){
-                if (me.requestUsername != "") {
+            me.getSedeInfo = function (){
+                if (me.requestSedeId != "") {
                     $.ajax({
                         type: "GET",
-                        url:"http://localhost:8080/Template/public/api/v1/getUserInfoByUsername",
-                        data: { username: me.requestUsername},
+                        url:"http://localhost:8080/Template/public/api/v1/getSedeInfoById",
+                        data: { sedeId: me.id},
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
                         success: function (data) {
-                            console.log(data.user);
-                            var rawUser = data.user;
-                            me.loadUser(rawUser);
+                            var rawSede = data.sede;
+                            me.loadSede(rawSede);
                         },
                         error: function (data) {
                             console.log(data);
@@ -95,27 +80,27 @@
 
             };
 
-            me.loadUser = function(rawuser){
-                me.id(rawuser.id);
-                me.username(rawuser.username);
-                me.password(rawuser.password);
-                me.email(rawuser.email);
+            me.loadSede = function(rawSede){
+                me.id(rawSede.sede_id);
+                me.name(rawSede.sede_name);
+                me.responsible(rawSede.sede_responsible);
             };
 
             me.save = function(){
-                var userRaw = {
+                var SedeRaw = {
                     id: me.id(),
-                    username: me.username(),
+                    Sedename: me.Sedename(),
                     password: me.password(),
                     email: me.email(),
                     active: me.active()? 1: 0,
-                    rol: me.rol()
+                    rol: me.rol(),
+                    sede: me.sede()
                 };
-                console.log(userRaw);
+                console.log(SedeRaw);
                 $.ajax({
                     type: "GET",
-                    url:"http://localhost:8080/Template/public/api/v1/saveUser",
-                    data: { user: userRaw},
+                    url:"http://localhost:8080/Template/public/api/v1/saveSede",
+                    data: { Sede: SedeRaw},
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
@@ -133,22 +118,22 @@
                 });
             };
 
-            me.getUserInfo();
+            me.getSedeInfo();
 
             return {
-                username:me.username,
+                Sedename:me.Sedename,
                 password:me.password,
                 email:me.email,
                 active:me.active,
                 rol:me.rol,
-                getUserInfo: me.getUserInfo,
-                loadUser:me.loadUser,
+                getSedeInfo: me.getSedeInfo,
+                loadSede:me.loadSede,
                 save:me.save
             };
 
         };
 
-        var viewModel =  new UserDetailViewModel();
+        var viewModel =  new SedeDetailViewModel();
 
 
         $(function () {

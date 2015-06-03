@@ -12,17 +12,14 @@ class CreateSedesTable extends Migration {
 	 */
 	public function up()
 	{
-        if (!Schema::hasTable('sedes'))
+        Schema::create('sedes', function(Blueprint $table)
         {
-            Schema::create('sedes', function(Blueprint $table)
-            {
-                $table->increments('id');
-                $table->string('name','50');
-                $table->string('responsible','50');
-                $table->string('location','100');
-                $table->timestamps();
-            });
-        }
+            $table->increments('sede_id');
+            $table->string('sede_name','50');
+            $table->string('sede_responsible','50');
+            $table->string('sede_location','100');
+            $table->timestamps();
+        });
 	}
 
 	/**
