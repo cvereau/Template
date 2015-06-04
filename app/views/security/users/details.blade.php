@@ -125,7 +125,7 @@
             };
 
             me.loadUser = function(rawuser){
-                me.id(rawuser.id);
+                me.id(rawuser.user_id);
                 me.username(rawuser.username);
                 me.password(rawuser.password);
                 me.email(rawuser.email);

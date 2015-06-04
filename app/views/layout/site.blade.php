@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Colegio Hipólito Unanue</title>
 
     <!--Favicon--->
     <link rel="shortcut icon" href="{{{ asset('assets/img/favicon.png') }}}">

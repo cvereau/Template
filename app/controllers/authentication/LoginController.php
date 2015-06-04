@@ -21,7 +21,7 @@ class LoginController extends BaseController
         $authUser = with(new User)->ValidateUser($username, $password);
         if($authUser){
             //we store the userId on the session
-            Session::put('userId', $authUser->id);
+            Session::put('userId', $authUser->user_id);
             Session::put('username', $authUser->username);
             return Response::json(array(
                 'error' => false,
@@ -32,7 +32,7 @@ class LoginController extends BaseController
         }
         else{
             return Response::json(array(
-                'error' => false,
+                'error' => true,
                 'result' => false),
                 200
             )->setCallback(Input::get('callback'));

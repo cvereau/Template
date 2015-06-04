@@ -10,10 +10,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Colegio Hipólito Unanue</title>
 
     <!--Favicon--->
-    <link rel="shortcut icon" href="{{{ asset('assets/img/favicon.png') }}}">
+    <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}">
     <!-- Bootstrap Core CSS -->
     {{ HTML::style('assets/bower_components/bootstrap/dist/css/bootstrap.min.css') }}    
 
@@ -89,8 +89,6 @@
             me.password = ko.observable(null);
 
             me.authenticate = function () {
-                console.log(me.username());
-                console.log(me.password());
                 $.ajax({
                     type: "GET",
                     url:"http://localhost:8080/Template/public/api/v1/login",
@@ -98,7 +96,6 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
-                        console.log("success");
                         if(data.result == false){
                             $("#loginFailedMessage").show();
                         }
@@ -110,7 +107,7 @@
                     error: function (data) {
                         console.log(data);
                         console.log(data.d);
-                        console.log("error ;(");
+                        console.log("error :(");
                     }
                 });
             }
