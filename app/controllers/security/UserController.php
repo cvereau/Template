@@ -19,7 +19,6 @@ class UserController extends BaseController {
         if ($name == "nuevo") {
             $name = null;
         }
-        //$userToEdit = with(new User)->GetUserByUsername($name);
         return View::make('security.users.details')->with('name', $name)->with('roles', $roles)->with('sedes',$sedes);
     }
 

@@ -48,6 +48,88 @@ body {
     text-align: center;
 }
 
+.tab-grados{
+     margin-left: 65px;
+}
+
+.tab{
+    padding-left: 150px;
+    margin-top:8px;
+    width:100%;
+}
+
+.btnSecciones{
+    padding-top: 5px;
+}
+
+.colorInicial{
+    color:#5cb85c;
+}
+
+.colorPrimaria{
+    color:#5bc0de !important;
+}
+
+.colorSecundaria{
+    color:#337ab7 !important;
+}
+
+.jstree-default .jstree-checkbox {
+    background-image: url(../../img/jstree.png);
+}
+
+.jstree-default .jstree-icon {
+    color: #333;
+}
+
+.jstree-default .jstree-hovered {
+    background-color: white;
+}
+
+.jstree-default .jstree-clicked {
+    background-color: white;
+}
+
+.jstree-default .jstree-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.jstree-default .colored {
+    color: #0e9a5a;
+}
+
+.jstree-default .colored .jstree-icon {
+    color: #0e9a5a;
+}
+
+.jstree-default .colored-icon .jstree-icon {
+    color: #0e9a5a;
+}
+
+.jstree-default .folder .jstree-icon {
+    color: #ddc03f !important;
+}
+
+/* dark */
+html.dark body .jstree-default .jstree-checkbox {
+    background-image: url(../../img/jstree-dark.png);
+}
+
+html.dark body .jstree-default .jstree-hovered {
+    background-color: #21262d !important;
+    box-shadow: none;
+}
+
+html.dark body .jstree-default .jstree-clicked {
+    background-color: #1d2127 !important;
+    box-shadow: none;
+}
+
+html.dark body .jstree-default .jstree-icon {
+    color: #808697;
+}
+
 .navbar-top-links {
     margin-right: 0;
 }

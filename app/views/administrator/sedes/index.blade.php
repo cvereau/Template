@@ -31,12 +31,12 @@
                             <table class="table table-striped table-bordered table-hover" id="SedesData">
                                 <thead>
                                 <tr>
-                                    <th class="center">Id</th>
+                                    <th>Id</th>
                                     <th>Nombre</th>
                                     <th>Responsable</th>
                                     <th>Dirección</th>
                                     <th>Fecha de Creación</th>
-                                    <th class="center">Acciones</th>
+                                    <th>Acciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -57,10 +57,10 @@
                                 <!-- ko foreach: { data: matchingSedes, as: 'sede' } -->
                                 <tr class ="sede" data-bind="click: $parent.editSede, attr: {'data-id': $index}"  style="cursor:pointer">
                                     <td class="center" data-bind="text: sede.sede_id"></td>
-                                    <td data-bind="text: sede.sede_name"></td>
-                                    <td data-bind="text: sede.sede_responsible"></td>
-                                    <td data-bind="text: sede.sede_location"></td>
-                                    <td data-bind="text: sede.created_at"></td>
+                                    <td data-bind="text: sede.sede_nombre"></td>
+                                    <td data-bind="text: sede.sede_responsable"></td>
+                                    <td data-bind="text: sede.sede_direccion"></td>
+                                    <td class="center" data-bind="text: sede.created_at"></td>
                                     <td class="actions center">
                                         <a href="javascript:void(0)" data-bind="click: $parent.delete" class="on-default remove-row"><i class="fa fa-trash-o fa-2x"></i></a>
                                     </td>

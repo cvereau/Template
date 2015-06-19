@@ -7,7 +7,8 @@ class Role extends Eloquent {
      *
      * @var string
      */
-    protected $table = 'roles';
+    protected $table = 'Rol';
+    protected $primaryKey = 'rol_id';
 
     public function GetAllRoles()
     {

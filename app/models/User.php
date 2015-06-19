@@ -14,16 +14,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
      *
      * @var string
      */
-    protected $table = 'users';
-    protected $primaryKey = 'user_id';
+    protected $table = 'Usuario';
+
+    protected $primaryKey = 'usr_id';
+
     /*
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
     //protected $hidden = array('password', 'remember_token');
-    public function ValidateUser($username,$password){
-        $matchingUser = User::where('username', '=', $username)->where('password','=', $password)->first();
+    public function ValidateUser($username,$password,$sede){
+        $matchingUser = User::where('usr_username', '=', $username)->where('usr_password','=', $password)->where('sede_id','=', $sede)->first();
         if($matchingUser){
             return $matchingUser;
         }
@@ -34,10 +36,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
     public function GetAllUsers()
     {
-        $users = DB::table('users')
-            ->join('roles', 'users.role_id', '=', 'roles.role_id')
-            ->join('sedes','users.sede_id','=','sedes.sede_id')
-            ->select('users.user_id', 'roles.role_name', 'sedes.sede_name','users.username','users.password','users.email','users.active', 'users.created_at')
+        $users = DB::table('Usuario')
+            ->join('Rol', 'Usuario.rol_id', '=', 'Rol.rol_id')
+            ->join('Sede', 'Usuario.sede_id', '=', 'Sede.sede_id')
+            ->select('Usuario.usr_id', 'Rol.rol_nombre', 'Sede.sede_nombre', 'Usuario.usr_username','Usuario.usr_password','Usuario.usr_email','Usuario.usr_active', 'Usuario.created_at')
             ->get();
 
         return $users;
@@ -45,37 +47,37 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
     public function GetUserByUsername($username)
     {
-        $matchingUser = User::where('username', '=', $username)->first();
+        $matchingUser = User::where('usr_username', '=', $username)->first();
 
         return $matchingUser;
     }
 
     public function GetUserById($id)
     {
-        $matchingUser = User::where('user_id','=',$id)->first();
+        $matchingUser = User::where('usr_id','=',$id)->first();
 
         return $matchingUser;
     }
 
     public function SaveUser($rawUser)
     {
-        $existingUser = User::where('user_id','=', $rawUser['id'])->first();
+        $existingUser = User::where('usr_id','=', $rawUser['id'])->first();
         if (!$existingUser){
             $existingUser = new User;
         }
-        $existingUser->username = $rawUser['username'];
-        $existingUser->password = $rawUser['password'];
-        $existingUser->role_id = $rawUser['rol'];
+        $existingUser->usr_username = $rawUser['username'];
+        $existingUser->usr_password = $rawUser['password'];
+        $existingUser->rol_id = $rawUser['rol'];
         $existingUser->sede_id = $rawUser['sede'];
-        $existingUser->email = $rawUser['email'];
-        $existingUser->active = $rawUser['active'];
+        $existingUser->usr_email = $rawUser['email'];
+        $existingUser->usr_active = $rawUser['active'];
         $existingUser->save();
         return true;
     }
 
     public function DeleteUser($userId)
     {
-        $deleteUser = User::where('user_id','=',$userId)->first();
+        $deleteUser = User::where('usr_id','=',$userId)->first();
         if($deleteUser){
             $deleteUser->delete();
             return true;

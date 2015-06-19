@@ -8,7 +8,9 @@
 
 class Sede extends Eloquent {
 
-    protected $table = 'Sedes';
+    protected $table = 'Sede';
+
+    protected $primaryKey = 'sede_id';
 
     public function GetAllSedes()
     {
@@ -37,9 +39,9 @@ class Sede extends Eloquent {
         if (!$existingSede){
             $existingSede = new Sede;
         }
-        $existingSede->name = $rawSede['sede_name'];
-        $existingSede->responsible = $rawSede['sede_responsible'];
-        $existingSede->location = $rawSede['sede_location'];
+        $existingSede->sede_nombre = $rawSede['name'];
+        $existingSede->sede_responsable = $rawSede['responsible'];
+        $existingSede->sede_direccion = $rawSede['location'];
         $existingSede->save();
         return true;
     }

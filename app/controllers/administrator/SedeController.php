@@ -13,18 +13,20 @@ class SedeController extends BaseController {
         return View::make('administrator.sedes.index');
     }
 
-    public function newOrEdit($name)
+    public function newOrEdit($sedeId)
     {
-        if ($name == "nuevo") {
-            $name = null;
+        if ($sedeId == "nuevo") {
+            $sedeName = null;
+            $sedeId = null;
         }
-        //$userToEdit = with(new User)->GetUserByUsername($name);
-        return View::make('administrator.sedes.index')->with('name', $name);
+        else{
+            $sedeName = with(new Sede)->GetSedeById($sedeId)->sede_nombre;
+        }
+        return View::make('administrator.sedes.details')->with('sedeId', $sedeId)->with('sedeName', $sedeName);
     }
 
     public function getAllSedes()
     {
-        //we get all the users from the database
         //return the list of users in json
         $rawSedes = with(new Sede)->GetAllSedes();
         return Response::json(array(
@@ -39,6 +41,18 @@ class SedeController extends BaseController {
     {
         $sedename = $_GET['sedeName'];
         $matchingSede = with(new Sede)->GetSedeByName($sedename);
+
+        return Response::json(array(
+            'error' => false,
+            'sede' =>  $matchingSede,
+        ), 200
+        )->setCallback(Input::get('callback'));
+    }
+
+    public function getSedeById()
+    {
+        $sedeId = $_GET['sedeId'];
+        $matchingSede = with(new Sede)->GetSedeById($sedeId);
 
         return Response::json(array(
             'error' => false,

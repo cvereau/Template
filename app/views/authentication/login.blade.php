@@ -51,12 +51,25 @@
                                 <div class="form-group">
                                     <input id="username" class="form-control" data-bind="value:username" placeholder="Usuario" name="user" type="text" autofocus>
                                 </div>
-                                <label id="usernameRequiredMessage" class="validation-error" style="display:none">Ingrese un usuario</label>
+                                <label id="usernameRequiredMessage" class="validation-error" style="display:none;width:100%">Ingrese un usuario</label>
                                 <div class="form-group">
                                     <input id="password" class="form-control" data-bind="value:password" placeholder="Password" name="password" type="password" value="">
                                 </div>
-                                <label id="passwordRequiredMessage" class="validation-error" style="display:none">Ingrese un password</label>
-                                <label id="loginFailedMessage" class="validation-error" style="display:none">Su usuario o password es incorrecto</label>
+                                <label id="passwordRequiredMessage" class="validation-error" style="display:none;width:100%">Ingrese un password</label>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <select class="form-control" id="sede" data-bind="value: sede">
+                                                <option value="-1" disabled selected>Seleccione una sede</option>
+                                                @foreach($sedes as $sede)
+                                                    <option value="{{$sede->sede_id}}">{{$sede->sede_nombre}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label id="sedeRequiredMessage" class="validation-error " style="display:none;width:100%">Seleccione una sede</label>
+                                <label id="loginFailedMessage" class="validation-error" style="display:none;width:100%">Su usuario o password es incorrecto</label>
                                 <!-- Change this to a button or input when using this as a form -->
                                 <a id="btnLogin" href="javascript:void(0)" role="button" class="btn btn-lg btn-success btn-block">Login</a>
                             </fieldset>
@@ -87,12 +100,13 @@
 
             me.username = ko.observable(null);
             me.password = ko.observable(null);
+            me.sede = ko.observable(0);
 
             me.authenticate = function () {
                 $.ajax({
                     type: "GET",
                     url:"http://localhost:8080/Template/public/api/v1/login",
-                    data: { username: me.username(), password: me.password()},
+                    data: { username: me.username(), password: me.password(), sede: me.sede()},
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
@@ -115,6 +129,7 @@
             return{
                 username: me.username,
                 password: me.password,
+                sede: me.sede,
                 authenticate: me.authenticate
             };
 
@@ -141,10 +156,13 @@
             $("#btnLogin").on("click", Login);
             $("#username").on("keyup", onUsernameKeyup);
             $("#password").on("keyup", onPasswordKeyup);
+            $("#sede").on("change", onSedeChange);
 
             //bind the object
             ko.applyBindings(viewModel, $(".container")[0]);
         });
+
+        var initialized = false;
 
         function onUsernameKeyup(e) {
             var keyCode = e.which || e.keyCode;
@@ -165,12 +183,24 @@
             }
         }
 
+        function onSedeChange(e)
+        {
+            if(initialized){
+                validateSedeSupplied();
+            }else{
+                initialized = true;
+            }
+
+        }
+
         function validateLoginForm(options) {
             options = $.extend({ valid: function () { }, invalid: function () { } }, (options || {}));
             var isValid = true;
             var validateOptions = { invalid: function () { isValid = false; } };
             validateUsernameSupplied(validateOptions);
             validatePasswordSupplied(validateOptions);
+            validateSedeSupplied(validateOptions);
+
             if (isValid) {
                 options.valid();
             }
@@ -204,6 +234,21 @@
                 $("#password").addClass("error");
                 $("#passwordRequiredMessage").fadeIn();
                 options.invalid();
+            }
+        }
+
+        function validateSedeSupplied(options) {
+            options = $.extend({ valid: function () { }, invalid: function () { } }, (options || {}));
+            if ($.trim($("#sede").val())) {
+                $("#sede").removeClass("error");
+                $("#sedeRequiredMessage").fadeOut();
+                options.valid();
+            }
+            else{
+                $("#sede").addClass("error");
+                $("#sedeRequiredMessage").fadeIn();
+                options.invalid();
+
             }
         }
     </script>

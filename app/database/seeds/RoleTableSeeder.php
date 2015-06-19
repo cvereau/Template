@@ -10,12 +10,13 @@ class RoleTableSeeder extends Seeder{
 
     public function run()
     {
-        DB::table('roles')->delete();
+        DB::table('Rol')->delete();
 
 
-        DB::table('roles')->insert(array(
-            array('role_name'=>'Administrador','role_description'=>'Administrador del sistema con privilegios especiales.'),
-            array('role_name'=>'Personal Matrícula','role_description'=>'Usuario basico del sistema.')
+        DB::table('Rol')->insert(array(
+            array('rol_nombre'=>'Administrador','rol_descripcion'=>'Administrador del sistema con privilegios especiales.'),
+            array('rol_nombre'=>'Personal Matrícula','rol_descripcion'=>'Usuario basico del sistema, encargado de las matrículas'),
+            array('rol_nombre'=>'Profesor','rol_descripcion'=>'Usuario usado por los docentes para el ingreso de notas')
         ));
     }
 }

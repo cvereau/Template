@@ -51,7 +51,7 @@
                                             <div class="col-xs-4">
                                                 <select class="form-control" data-bind="value: rol">
                                                     @foreach( $roles as $rol)
-                                                        <option value="{{$rol->role_id}}">{{$rol->role_name}}</option>
+                                                        <option value="{{$rol->rol_id}}">{{$rol->rol_nombre}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -63,7 +63,7 @@
                                             <div class="col-xs-4">
                                                 <select class="form-control" data-bind="value: sede">
                                                     @foreach( $sedes as $sede)
-                                                        <option value="{{$sede->sede_id}}">{{$sede->sede_name}}</option>
+                                                        <option value="{{$sede->sede_id}}">{{$sede->sede_nombre}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -114,6 +114,7 @@
                             console.log(data.user);
                             var rawUser = data.user;
                             me.loadUser(rawUser);
+                            //me.rol.valueHasMutated();
                         },
                         error: function (data) {
                             console.log(data);
@@ -125,14 +126,14 @@
             };
 
             me.loadUser = function(rawuser){
-                me.id(rawuser.user_id);
-                me.username(rawuser.username);
-                me.password(rawuser.password);
-                me.email(rawuser.email);
-                me.active(rawuser.active == 1? true : false);
-                setActiveRadioButtons();
-                me.rol(rawuser.role_id);
+                me.id(rawuser.usr_id);
+                me.username(rawuser.usr_username);
+                me.password(rawuser.usr_password);
+                me.email(rawuser.usr_email);
+                me.active(rawuser.usr_active == 1? true : false);
+                me.rol(rawuser.rol_id);
                 me.sede(rawuser.sede_id);
+                setActiveRadioButtons();
             };
 
             me.save = function(){
@@ -158,6 +159,7 @@
                         toastr.success('Sus cambios fueron registrados con éxito','Usuario Guardado');
                         //redirect them
                         setTimeout(function () { window.location = "{{URL::to('usuarios')}}"; }, 1000);
+
                     },
                     error: function () {
                         console.log("error ;(");
@@ -165,7 +167,7 @@
                 });
             };
 
-            me.getUserInfo();
+            //me.getUserInfo();
 
             return {
                 username:me.username,
@@ -174,7 +176,7 @@
                 active:me.active,
                 rol:me.rol,
                 sede:me.sede,
-                getUserInfo: me.getUserInfo,
+                getUserInfo:me.getUserInfo,
                 loadUser:me.loadUser,
                 save:me.save
             };
@@ -216,6 +218,9 @@
                 }
             });
 
+            // llenamos el formulario con los datos del usuario.
+           viewModel.getUserInfo();
+            // bindeamos knockout
            ko.applyBindings(viewModel , $("#page-wrapper")[0]);
         });
     </script>

@@ -38,6 +38,9 @@
     <!--Toastr -->
     {{HTML::style('http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css')}}
 
+    <!-- Custom Checkbox -->
+    {{HTML::style('assets/dist/css/checkbox.css')}}
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -194,10 +197,10 @@
                                 <a id="mantenimientoLink" href="#">Mantenimiento <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
                                     <li>
-                                        <a href="#">Asignaturas</a>
+                                        <a id="asignaturasLink" href="{{URL::to('asignaturas')}}">Asignaturas</a>
                                     </li>
                                     <li>
-                                        <a href="#">Profesores</a>
+                                        <a idd="profesoresLink" href="{{URL::to('profesores')}}">Profesores</a>
                                     </li>
                                     <li>
                                         <a id="sedesLink" href="{{URL::to('sedes')}}">Sedes</a>
@@ -240,7 +243,7 @@
 {{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/knockout.mapping/2.4.1/knockout.mapping.min.js') }}
 
 <!-- jQuery -->
-{{ HTML::script('assets/bower_components/jquery/dist/jquery.min.js') }}
+{{ HTML::script('assets/bower_components/jquery/dist/jquery.min.js') }} <!--https://code.jquery.com/jquery-2.1.4.min.js-->
 
 <!-- Bootstrap Core JavaScript -->
 {{ HTML::script('assets/bower_components/bootstrap/dist/js/bootstrap.min.js') }}
@@ -276,6 +279,16 @@
         $("#administradorLink").closest("li").addClass("active");
         $("#mantenimientoLink").closest("li").attr("aria-expanded","true");
         $("#sedesLink").closest("li").addClass("active");
+    }
+    else if (currentUrl.indexOf("asignaturas") >= 0){
+        $("#administradorLink").closest("li").addClass("active");
+        $("#mantenimientoLink").closest("li").attr("aria-expanded","true");
+        $("#asignaturasLink").closest("li").addClass("active");
+    }
+    else if (currentUrl.indexOf("profesores") >= 0){
+        $("#administradorLink").closest("li").addClass("active");
+        $("#mantenimientoLink").closest("li").attr("aria-expanded","true");
+        $("#profesoresLink").closest("li").addClass("active");
     }
 </script>
 

@@ -55,7 +55,7 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'template',
+			'database'  => 'Template',
 			'username'  => 'root',
 			'password'  => 'warcraft196',
 			'charset'   => 'utf8',

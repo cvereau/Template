@@ -12,12 +12,12 @@ class CreateSedesTable extends Migration {
 	 */
 	public function up()
 	{
-        Schema::create('sedes', function(Blueprint $table)
+        Schema::create('Sede', function(Blueprint $table)
         {
             $table->increments('sede_id');
-            $table->string('sede_name','50');
-            $table->string('sede_responsible','50');
-            $table->string('sede_location','100');
+            $table->string('sede_nombre','100');
+            $table->string('sede_responsable','100');
+            $table->string('sede_direccion','250');
             $table->timestamps();
         });
 	}
@@ -29,7 +29,7 @@ class CreateSedesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('sedes');
+		Schema::drop('Sede');
 	}
 
 }

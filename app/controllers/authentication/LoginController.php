@@ -10,29 +10,31 @@ class LoginController extends BaseController
      */
     public function index()
     {
-        return View::make('authentication.login');
+        $sedes = with(new Sede)->GetAllSedes();
+        return View::make('authentication.login')->with('sedes',$sedes);
     }
 
     public function login()
     {
         $username = $_GET['username'];
         $password = $_GET['password'];
+        $sede = $_GET['sede'];
         //we call the validation function
-        $authUser = with(new User)->ValidateUser($username, $password);
+        $authUser = with(new User)->ValidateUser($username, $password, $sede);
         if($authUser){
             //we store the userId on the session
-            Session::put('userId', $authUser->user_id);
-            Session::put('username', $authUser->username);
+            Session::put('userId', $authUser->usr_id);
+            Session::put('username', $authUser->usr_username);
             return Response::json(array(
                 'error' => false,
                 'result' => true,
-                'userId' => $authUser->id),
+                'userId' => $authUser->usr_id),
                 200
             )->setCallback(Input::get('callback'));
         }
         else{
             return Response::json(array(
-                'error' => true,
+                'error' => false,
                 'result' => false),
                 200
             )->setCallback(Input::get('callback'));

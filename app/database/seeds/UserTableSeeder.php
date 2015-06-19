@@ -10,12 +10,12 @@ class UserTableSeeder extends Seeder{
 
     public function run()
     {
-        DB::table('users')->delete();
+        DB::table('Usuario')->delete();
 
 
-        DB::table('users')->insert(array(
-            array('username'=>'huadmin','role_id'=> 1,'sede_id'=> 1,'email'=>'james@gmail.com','password'=> 'disolu12#', "active" => true),
-            array('username'=>'testuser','role_id'=> 2,'sede_id'=> 1,'email'=>'stever@yahoo.com','password'=> 'test', "active" => true)
+        DB::table('Usuario')->insert(array(
+            array('usr_username'=>'huadmin','rol_id'=> 1,'sede_id'=> 1,'usr_email'=>'james@gmail.com','usr_password'=> 'disolu12#', "usr_active" => true),
+            array('usr_username'=>'testuser','rol_id'=> 2,'sede_id'=> 1,'usr_email'=>'stever@yahoo.com','usr_password'=> 'test', "usr_active" => true)
         ));
     }
 }
