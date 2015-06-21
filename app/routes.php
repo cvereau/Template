@@ -28,6 +28,12 @@ Route::get('sedes/{name}','SedeController@newOrEdit');
 Route::get('asignaturas', 'AsignaturaController@index');
 Route::get('asignaturas/{name}','AsignaturaController@newOrEdit');
 
+//periodoIngresoNotas
+Route::get('periodoIngresoNotas/{name}','IngresoNotasController@newOrEdit');
+
+//periodoMatricula
+Route::get('periodoMatricula/{name}','MatriculaController@newOrEdit');
+
 //Profesores
 Route::get('profesores','ProfesorController@index');
 Route::get('profesores/{name}','ProfesorController@newOrEdit');
@@ -51,4 +57,9 @@ Route::group(array('prefix' => 'api/v1'),function()
     Route::get('getSedeInfoById','SedeController@getSedeById');
     Route::get('saveSede','SedeController@saveSede');
     Route::get('deleteSede','SedeController@deleteSede');
+    //Profesores
+    Route::get('getProfesores','ProfesorController@getAllProfesores');
+    Route::get('getProfesorInfoById','ProfesorController@getProfesorById');
+    Route::get('saveProfesor','ProfesorController@saveProfesor');
+    Route::get('deleteProfesor','ProfesorController@deleteProfesor');
 });

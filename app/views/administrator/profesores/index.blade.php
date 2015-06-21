@@ -22,7 +22,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="mb-md">
-                            <a href="{{URL::to('profesores/nuevo')}}" id="addUser" role="button" class="btn btn-primary">Agregar</a>
+                            <a href="{{URL::to('profesores/nuevo')}}" id="addProfesor" role="button" class="btn btn-primary">Agregar</a>
                         </div>
                     </div>
                     <!-- /.panel-heading -->
@@ -30,45 +30,55 @@
                         <div class="dataTable_wrapper">
                             <table class="table table-striped table-bordered table-hover" id="profesoresData">
                                 <thead>
-                                <tr>
-                                    <th>DNI</th>
-                                    <th>Nombre</th>
-                                    <th>Apellido Paterno</th>
-                                    <th>Apellido Materno</th>
-                                    <th>Usuario</th>
-                                    <th>Teléfono</th>
-                                    <th>Es Tutor?</th>
-                                    <th>Fecha de Creación</th>
-                                    <th>Acciones</th>
-                                </tr>
+                                    <tr>
+                                        <th>DNI</th>
+                                        <th>Nombre</th>
+                                        <th>Apellido Paterno</th>
+                                        <th>Apellido Materno</th>
+                                        <th>Usuario</th>
+                                        <th>Teléfono</th>
+                                        <th>¿Es Tutor?</th>
+                                        <th>Fecha de Creación</th>
+                                        <th>Acciones</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td class="center">45766270</td>
-                                    <td>Juan</th>
-                                    <td>Velit</th>
-                                    <td>Sanchez</th>
-                                    <td>jvelit</td>
-                                    <td>985445250</td>
-                                    <td class="center"><span class='label label-success'>Sí</span></td>
-                                    <td class="center">2014-08-15 00:00:00</td>
-                                    <td class="center">
-                                        <a href="javascript:void(0)" data-bind="click: $parent.delete" class="on-default remove-row"><i class="fa fa-trash-o fa-2x"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="center">40885202</td>
-                                    <td>Leonardo</th>
-                                    <td>Delgado</th>
-                                    <td>Monteverde</th>
-                                    <td>ldelgado</td>
-                                    <td>962359363</td>
-                                    <td class="center"><span class='label label-danger'>No</span></td>
-                                    <td class="center">2014-09-12 00:00:00</td>
-                                    <td class="center">
-                                        <a href="javascript:void(0)" data-bind="click: $parent.delete" class="on-default remove-row"><i class="fa fa-trash-o fa-2x"></i></a>
-                                    </td>
-                                </tr>
+                                    <!-- ko if: loadingProfesores() -->
+                                    <tr>
+                                        <td colspan="8" style="text-align: center">
+                                            <img src="{{asset("assets/img/ajax-loader.gif")}}" alt=""/>
+                                        </td>
+                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if: !loadingProfesores() && matchingProfesores().length < 1 -->
+                                    <tr data-bind="visible: !loadingProfesores() && matchingProfesores().length < 1">
+                                        <td colspan="8">
+                                            <strong><i class="glyphicon glyphicon-info-sign"></i> No se encontraron usuarios</strong>
+                                        </td>
+                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- ko foreach: { data: matchingProfesores, as: 'profesor' } -->
+                                    <tr class ="profesor" data-bind="click: $parent.editProfesor, attr: {'data-id': $index}"  style="cursor:pointer">
+                                        <td class="center" data-bind="text: profesor.prof_dni"></td>
+                                        <td data-bind="text: profesor.prof_nombre"></td>
+                                        <td data-bind="text: profesor.prof_apellido_paterno"></td>
+                                        <td data-bind="text: profesor.prof_apellido_materno"></td>
+                                        <td data-bind="text: profesor.usr_username"></td>
+                                        <td data-bind="text: profesor.prof_telefono"></td>
+                                        <td class="center">
+                                            <!-- ko if: profesor.prof_esTutor -->
+                                            <span class='label label-success'> SI </span>
+                                            <!-- /ko -->
+                                            <!-- ko ifnot: profesor.prof_esTutor -->
+                                            <span class='label label-danger'>NO</span>
+                                            <!-- /ko -->
+                                        </td>
+                                        <td class="center" data-bind="text: profesor.created_at"></td>
+                                        <td class="actions center">
+                                            <a href="javascript:void(0)" data-bind="click: $parent.delete" class="on-default remove-row"><i class="fa fa-trash-o fa-2x"></i></a>
+                                        </td>
+                                    </tr>
+                                    <!-- /ko -->
                                 </tbody>
                             </table>
                         </div>
@@ -95,7 +105,87 @@
     {{ HTML::script('http://cdn.datatables.net/responsive/1.0.1/js/dataTables.responsive.js') }}
 
     <script>
-        $(function () {
+        var baseURL = "http://localhost:8080/Template/public";
+
+        function ProfesoresViewModel(){
+            var me = this;
+
+            me.matchingProfesores = ko.observableArray([]);
+            me.loadingProfesores = ko.observable(false);
+
+            me.getProfesores = function () {
+                me.loadingProfesores(true);
+                $.ajax({
+                    type: "GET",
+                    url: baseURL + "/api/v1/getProfesores",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        console.log(data);
+                        console.log(data.profesores);
+                        var rawProfesores = JSON.parse(data.profesores);
+                        me.loadingProfesores(false);
+                        me.matchingProfesores.removeAll();
+                        for (var i = 0; i < rawProfesores.length; i++) {
+                            me.matchingProfesores.push(rawProfesores[i]);
+                        }
+                    },
+                    error: function (data) {
+                        me.loadingProfesores(false);
+                        console.log(data);
+                        console.log("error ;(");
+                    }
+                }).done(function(){ initializeDataTable(); });
+                //}
+            };
+
+            me.editProfesor = function(profesor) {
+                var id = profesor.prof_id;
+                window.location= baseURL + "/profesores/" + id;
+            };
+
+            me.delete = function (profesor, event) {
+                event.preventDefault();
+                event.stopPropagation();
+                $trClick = $(event.target).parents('tr.profesor');
+
+                $.ajax({
+                    type: "GET",
+                    url: baseURL + "/api/v1/deleteProfesor",
+                    data: { profesorId: profesor.prof_id},
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        //send the toast
+                        console.log(data.result);
+                        var table = $('#profesoresData').DataTable();
+                        table.row($trClick).remove().draw( false );
+                        toastr.success('Sus cambios fueron guardados con éxito','Profesor Eliminado');
+                        //var table = $('#ProfesorData').DataTable();
+
+
+                        //me.getProfesores();
+                    },
+                    error: function () {
+                        console.log("error ;(");
+                    }
+                });
+            };
+
+            me.getProfesores();
+
+            return {
+                matchingProfesores: me.matchingProfesores,
+                loadingProfesores: me.loadingProfesores,
+                getProfesores: me.getProfesores,
+                editProfesor: me.editProfesor,
+                delete: me.delete
+            };
+        }
+
+        var viewModel = new ProfesoresViewModel();
+
+        function initializeDataTable(){
             $('#profesoresData').DataTable({
                 responsive: true,
                 "language": {
@@ -126,7 +216,12 @@
                     { 'bSortable': false, 'aTargets': [ 8 ] }
                 ]
             });
+        }
+        $(function () {
+            //we bind the viewmodel to the view
+            ko.applyBindings(viewModel , $("#page-wrapper")[0]);
         });
+
     </script>
 
 @stop

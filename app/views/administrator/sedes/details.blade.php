@@ -338,7 +338,7 @@
                 responsable: me.responsable,
                 direccion: me.direccion,
                 currentGrado: me.currentGrado,
-                save: me.save,
+                save: me.save
             };
 
         };
