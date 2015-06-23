@@ -78,4 +78,15 @@ class Profesor extends Eloquent
         }
         return false;
     }
+
+    public function GetUsersAvailableForProfesor()
+    {
+        $matchingUsers = DB::table('Usuario')
+            ->leftJoin('Profesor', 'Usuario.usr_id', '=', 'Profesor.usr_id')
+            ->where('Usuario.rol_id','=',3)
+            ->where('Profesor.usr_id','=',null)
+            ->select('Usuario.usr_id', 'Usuario.usr_username')
+            ->get();
+        return $matchingUsers;
+    }
 }

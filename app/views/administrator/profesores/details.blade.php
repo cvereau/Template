@@ -45,11 +45,12 @@
                                     <div class="form-group">
                                         <label>Usuario</label>
                                         <div class="row">
-                                            <div class="col-xs-4">
+                                            <div class="col-xs-6">
                                                 <select class="form-control" data-bind="value: username">
-                                                    <option value="1">Seleccione usuario</option>
-                                                    <option value="1">ldelgado</option>
-                                                    <option value="2">jvelit</option>
+                                                    <option value="0">Seleccione usuario</option>
+                                                    @foreach( $usersDisponibles as $user)
+                                                        <option value="{{$user->usr_id}}">{{$user->usr_username}}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -57,7 +58,7 @@
                                     <div class="form-group">
                                         <label>Sexo</label>
                                         <div class="row">
-                                            <div class="col-xs-4">
+                                            <div class="col-xs-6">
                                                 <select class="form-control" data-bind="value: sexo">
                                                     <option value="M">Masculino</option>
                                                     <option value="F">Femenino</option>
@@ -91,10 +92,10 @@
                                             <div class="form-inline">
                                                 <div class="btn-group" data-toggle="buttons">
                                                     <label class="btn btn-default btn-sm">
-                                                        <input type="radio" id="esTutor" autocomplete="off" data-bind="checked: active"> SI
+                                                        <input type="radio" id="esTutor" autocomplete="off" data-bind="checked: !active"> SI
                                                     </label>
                                                     <label class="btn btn-danger active btn-sm">
-                                                        <input type="radio" id="noEsTutor" autocomplete="off" data-bind="checked: !active"> NO
+                                                        <input type="radio" id="noEsTutor" autocomplete="off" data-bind="checked: active"> NO
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
@@ -180,9 +181,22 @@
                 me.sexo(rawProfesor.prof_sexo);
                 me.direccion(rawProfesor.prof_direccion);
                 me.telefono(rawProfesor.prof_telefono);
-                me.fechaNac(rawProfesor.prof_fecha_nac);
-                me.active(rawProfesor.prof_esTutor == 1? true : false);
+
+                if(rawProfesor.prof_fecha_nac != null){
+                    var fecha = new Date(rawProfesor.prof_fecha_nac);
+                    if(fecha.getMonth() + 1 < 10){ var mes = "0" + (fecha.getMonth() + 1);}
+                    else {var mes = fecha.getMonth() + 1;}
+                    if(fecha.getDate() < 10){ var dia = "0" + fecha.getDate();}
+                    else {var dia = fecha.getDate();}
+                    me.fechaNac(fecha.getFullYear() + "-" + mes + "-" + dia);
+                }
+                else{
+                    me.fechaNac(rawProfesor.prof_fecha_nac);
+                }
+
+                me.active(rawProfesor.prof_esTutor == 1 ? true : false);
                 me.tutorAula(rawProfesor.prof_esTutor_aula);
+
                 setActiveRadioButtons();
             };
 
@@ -247,13 +261,15 @@
 
         function setActiveRadioButtons(){
             var active =  viewModel.active();
-            if(!active){
-                $("#esTutor").closest('label').removeClass('btn-success');
-                $("#esTutor").closest('label').addClass('btn-default');
-                $("#esTutor").closest('label').removeClass('active');
-                $("#noEsTutor").closest('label').addClass('btn-danger');
-                $("#noEsTutor").closest('label').removeClass('btn-default');
-                $("#noEsTutor").closest('label').addClass('active');
+            if(active){
+                $("#esTutor").closest('label').addClass('btn-success');
+                $("#esTutor").closest('label').removeClass('btn-default');
+                $("#esTutor").closest('label').addClass('active');
+                $("#noEsTutor").closest('label').removeClass('btn-danger');
+                $("#noEsTutor").closest('label').addClass('btn-default');
+                $("#noEsTutor").closest('label').removeClass('active');
+                $("#tutorAula").show();
+                $("#labelTutorAula").show();
             }
         }
 
@@ -264,8 +280,8 @@
             });
             //handlers for the radio input
             $("input[type='radio'][id='noEsTutor']").change(function () {
-                viewModel.active(false);
                 if (this.checked) {
+                    viewModel.active(true);
                     $(this).closest('label').removeClass('btn-default');
                     $(this).closest('label').addClass('btn-danger');
                     $("#esTutor").closest('label').removeClass('btn-success');
@@ -276,7 +292,7 @@
             });
             $("input[type='radio'][id='esTutor']").change(function () {
                 if (this.checked) {
-                    viewModel.active(true);
+                    viewModel.active(false);
                     $("#noEsTutor").closest('label').removeClass('btn-danger');
                     $("#noEsTutor").closest('label').addClass('btn-default');
                     $(this).closest('label').addClass('btn-success');

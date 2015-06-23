@@ -9,7 +9,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Periodos de Matricula</h1>
+                <h1 class="page-header">Periodos de Ingreso de Notas</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -18,17 +18,17 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Lista de Sedes
+                        Lista de PerIngresoNotas
                     </div>
                     <div class="col-sm-6">
                         <div class="mb-md">
-                            <a href="{{URL::to('periodoMatricula/nuevo')}}" id="addsede" role="button" class="btn btn-primary">Agregar</a>
+                            <a href="{{URL::to('periodoIngresoNotas/nuevo')}}" id="addsede" role="button" class="btn btn-primary">Agregar</a>
                         </div>
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
-                            <table class="table table-striped table-bordered table-hover" id="SedesData">
+                            <table class="table table-striped table-bordered table-hover" id="PerIngresoNotasData">
                                 <thead>
                                 <tr>
                                     <th>Id</th>
@@ -40,21 +40,21 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <!-- ko if: loadingSedes() -->
+                                <!-- ko if: loadingPerIngresoNotas() -->
                                 <tr>
                                     <td colspan="6" style="text-align: center">
                                         <img src="{{asset("assets/img/ajax-loader.gif")}}" alt=""/>
                                     </td>
                                 </tr>
                                 <!-- /ko -->
-                                <!-- ko if: !loadingSedes() && matchingSedes().length < 1 -->
-                                <tr data-bind="visible: !loadingSedes() && matchingSedes().length < 1">
+                                <!-- ko if: !loadingPerIngresoNotas() && matchingPerIngresoNotas().length < 1 -->
+                                <tr data-bind="visible: !loadingPerIngresoNotas() && matchingPerIngresoNotas().length < 1">
                                     <td colspan="6">
-                                        <strong><i class="glyphicon glyphicon-info-sign"></i> No se encontraron sedes</strong>
+                                        <strong><i class="glyphicon glyphicon-info-sign"></i> No se encontraron periodos de ingreso de notas</strong>
                                     </td>
                                 </tr>
                                 <!-- /ko -->
-                                <!-- ko foreach: { data: matchingSedes, as: 'sede' } -->
+                                <!-- ko foreach: { data: matchingPerIngresoNotas, as: 'sede' } -->
                                 <tr class ="sede" data-bind="click: $parent.editSede, attr: {'data-id': $index}"  style="cursor:pointer">
                                     <td class="center" data-bind="text: sede.sede_id"></td>
                                     <td data-bind="text: sede.sede_nombre"></td>
@@ -92,31 +92,31 @@
     {{ HTML::script('http://cdn.datatables.net/responsive/1.0.1/js/dataTables.responsive.js') }}
 
     <script>
-        function SedesViewModel(){
+        function PerIngresoNotasViewModel(){
             var me = this;
 
-            me.matchingSedes = ko.observableArray([]);
-            me.loadingSedes = ko.observable(false);
+            me.matchingPerIngresoNotas = ko.observableArray([]);
+            me.loadingPerIngresoNotas = ko.observable(false);
 
-            me.getSedes = function () {
-                me.loadingSedes(true);
+            me.getPerIngresoNotas = function () {
+                me.loadingPerIngresoNotas(true);
                 $.ajax({
                     type: "GET",
-                    url:"http://localhost:8080/Template/public/api/v1/getSedes",
+                    url:"http://localhost:8080/Template/public/api/v1/getPerIngresoNotas",
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
                         console.log(data);
-                        console.log(data.sedes);
-                        var rawSedes = JSON.parse(data.sedes);
-                        me.loadingSedes(false);
-                        me.matchingSedes.removeAll();
-                        for (var i = 0; i < rawSedes.length; i++) {
-                            me.matchingSedes.push(rawSedes[i]);
+                        console.log(data.perIngresoNotas);
+                        var rawPerIngresoNotas = JSON.parse(data.perIngresoNotas);
+                        me.loadingPerIngresoNotas(false);
+                        me.matchingPerIngresoNotas.removeAll();
+                        for (var i = 0; i < rawPerIngresoNotas.length; i++) {
+                            me.matchingPerIngresoNotas.push(rawPerIngresoNotas[i]);
                         }
                     },
                     error: function (data) {
-                        me.loadingSedes(false);
+                        me.loadingPerIngresoNotas(false);
                         console.log(data);
                         console.log("error ;(");
                     }
@@ -126,7 +126,7 @@
 
             me.editSede = function(sede) {
                 var sedeId = sede.sede_id;
-                window.location="http://localhost:8080/Template/public/sedes/" + sedeId;
+                window.location="http://localhost:8080/Template/public/perIngresoNotas/" + sedeId;
             };
 
             me.delete = function (sede, event) {
@@ -143,13 +143,13 @@
                     success: function (data) {
                         //send the toast
                         console.log(data.result);
-                        var table = $('#SedesData').DataTable();
+                        var table = $('#PerIngresoNotasData').DataTable();
                         table.row($trClick).remove().draw( false );
                         toastr.success('Sus cambios fueron guardados con éxito','Sede Eliminada');
                         //var table = $('#sedeData').DataTable();
 
 
-                        //me.getSedes();
+                        //me.getPerIngresoNotas();
                     },
                     error: function () {
                         console.log("error ;(");
@@ -157,21 +157,21 @@
                 });
             };
 
-            me.getSedes();
+            me.getPerIngresoNotas();
 
             return {
-                matchingSedes: me.matchingSedes,
-                loadingSedes: me.loadingSedes,
-                getSedes: me.getSedes,
+                matchingPerIngresoNotas: me.matchingPerIngresoNotas,
+                loadingPerIngresoNotas: me.loadingPerIngresoNotas,
+                getPerIngresoNotas: me.getPerIngresoNotas,
                 editSede: me.editSede,
                 delete: me.delete
             };
         }
 
-        var viewModel = new SedesViewModel();
+        var viewModel = new PerIngresoNotasViewModel();
 
         function initializeDataTable(){
-            $('#SedesData').DataTable({
+            $('#PerIngresoNotasData').DataTable({
                 responsive: true,
                 "language": {
                     "sProcessing":     "Procesando...",

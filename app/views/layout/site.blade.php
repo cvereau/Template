@@ -41,6 +41,9 @@
     <!-- Custom Checkbox -->
     {{HTML::style('assets/dist/css/checkbox.css')}}
 
+    <!--DatePicker-->
+    {{HTML::style('assets/dist/css/bootstrap-datetimepicker.min.css')}}
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -188,10 +191,10 @@
                         <a id="administradorLink" href="#"><i class="fa fa-cog fa-fw"></i> Administrador<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="#">Periodo Matrícula</a>
+                                <a href="{{URL::to('periodoMatricula')}}">Periodo Matrícula</a>
                             </li>
                             <li>
-                                <a href="#">Periodo Ingreso Notas</a>
+                                <a href="{{URL::to('periodoIngresoNotas')}}">Periodo Ingreso Notas</a>
                             </li>
                             <li>
                                 <a id="mantenimientoLink" href="#">Mantenimiento <span class="fa arrow"></span></a>
@@ -260,6 +263,8 @@
 
 <!--Toastr-->
 {{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js') }}
+
+
 
 
 @yield('ScriptSection')

@@ -25,8 +25,9 @@ class ProfesorController extends BaseController {
             $profesorNombre .= " ".$profesor->prof_apellido_paterno;
             $profesorNombre .= " ".$profesor->prof_apellido_materno;
         }
+        $usersDisponibles = with(new Profesor)->GetUsersAvailableForProfesor();
         return View::make('administrator.profesores.details')->with('profesorId', $profesorId)
-            ->with('profesorNombre', $profesorNombre);
+            ->with('profesorNombre', $profesorNombre)->with('usersDisponibles', $usersDisponibles);
     }
 
     public function getAllProfesores()

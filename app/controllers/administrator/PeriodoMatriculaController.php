@@ -6,33 +6,33 @@
  * Time: 04:37 PM
  */
 
-class IngresoNotasController extends BaseController {
+class PeriodoMatriculaController extends BaseController {
 
     public function index()
     {
-        return View::make('administrator.periodoIngresoNotas.index');
+        return View::make('administrator.periodoMatricula.index');
     }
 
-    public function newOrEdit($perIngresoNotasId)
+    public function newOrEdit($profesorId)
     {
-        if ($perIngresoNotasId == "nuevo") {
+        if ($profesorId == "nuevo") {
             //$sedeName = null;
-            $perIngresoNotasId = null;
+            $profesorId = null;
         }
         else{
            // $sedeName = with(new Sede)->GetSedeById($sedeId)->sede_nombre;
         }
-        return View::make('administrator.periodoIngresoNotas.details')->with('perIngresoNotasId', $perIngresoNotasId);
+        return View::make('administrator.periodoMatricula.details')->with('profesorId', $profesorId);
     }
 
-    public function getAllPerIngresoNotases()
+    public function getAllperiodoMatricula()
     {
         //we get all the users from the database
         //return the list of users in json
-        $rawPerIngresoNotas = with(new PerIngresoNotas)->GetAllPeriods();
+        $rawperiodoMatricula = with(new Profesor)->GetAllUsers();
         return Response::json(array(
             'error' => false,
-            'users' =>  json_encode($rawPerIngresoNotas),
+            'users' =>  json_encode($rawperiodoMatricula),
         ),
             200
         )->setCallback(Input::get('callback'));

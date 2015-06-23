@@ -29,10 +29,12 @@ Route::get('asignaturas', 'AsignaturaController@index');
 Route::get('asignaturas/{name}','AsignaturaController@newOrEdit');
 
 //periodoIngresoNotas
+Route::get('periodoIngresoNotas','IngresoNotasController@index');
 Route::get('periodoIngresoNotas/{name}','IngresoNotasController@newOrEdit');
 
 //periodoMatricula
-Route::get('periodoMatricula/{name}','MatriculaController@newOrEdit');
+Route::get('periodoMatricula','PeriodoMatriculaController@index');
+Route::get('periodoMatricula/{name}','PeriodoMatriculaController@newOrEdit');
 
 //Profesores
 Route::get('profesores','ProfesorController@index');
@@ -62,4 +64,9 @@ Route::group(array('prefix' => 'api/v1'),function()
     Route::get('getProfesorInfoById','ProfesorController@getProfesorById');
     Route::get('saveProfesor','ProfesorController@saveProfesor');
     Route::get('deleteProfesor','ProfesorController@deleteProfesor');
+    //periodoIngresoNotas
+    Route::get('getPerIngresoNotas','IngresoNotasController@getAllPerIngresoNotas');
+    Route::get('getPerIngresoNotasInfoById','IngresoNotasController@getPerIngresoNotasById');
+    Route::get('saveIngresoNotas','IngresoNotasController@savePerIngresoNotas');
+    Route::get('deleteIngresoNotas','IngresoNotasController@deletePerIngresoNotas');
 });
