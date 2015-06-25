@@ -167,7 +167,6 @@
                 });
             };
 
-            //me.getUserInfo();
 
             return {
                 username:me.username,

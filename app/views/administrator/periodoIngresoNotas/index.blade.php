@@ -120,7 +120,7 @@
                         console.log(data);
                         console.log("error ;(");
                     }
-                }).done(function(){ initializeDataTable(); });
+                }).done(function(){ if(me.matchingPerIngresoNotas().length > 0){initializeDataTable();} });
                 //}
             };
 

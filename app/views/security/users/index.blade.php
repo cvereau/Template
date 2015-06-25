@@ -45,14 +45,14 @@
                                 <tbody>
                                 <!-- ko if: loadingUsers() -->
                                 <tr>
-                                    <td colspan="8" style="text-align: center">
+                                    <td colspan="9" style="text-align: center">
                                     <img src="{{asset("assets/img/ajax-loader.gif")}}" alt=""/>
                                     </td>
                                 </tr>
                                 <!-- /ko -->
                                 <!-- ko if: !loadingUsers() && matchingUsers().length < 1 -->
                                 <tr data-bind="visible: !loadingUsers() && matchingUsers().length < 1">
-                                    <td colspan="8">
+                                    <td colspan="9">
                                         <strong><i class="glyphicon glyphicon-info-sign"></i> No se encontraron usuarios</strong>
                                     </td>
                                 </tr>
@@ -140,7 +140,7 @@
                             console.log(data);
                             console.log("error ;(");
                         }
-                    }).done(function(){ initializeDataTable(); });
+                    }).done(function(){ if(me.matchingUsers().length > 0){initializeDataTable();} });
                 //}
             };
 

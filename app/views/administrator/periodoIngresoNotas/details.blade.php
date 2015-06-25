@@ -70,7 +70,7 @@
                     <!-- /.panel-body -->
                     <div class="panel-footer">
                         <button  class="btn btn-primary" data-bind="click: save">Guardar</button>
-                        <a href="{{URL::to('profesores')}}" class="btn btn-default">Cancelar</a>
+                        <a href="{{URL::to('periodoIngresoNotas')}}" class="btn btn-default">Cancelar</a>
                     </div>
                 </div>
                 <!-- /.panel -->

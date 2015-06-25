@@ -18,13 +18,13 @@
                     <div class="panel-body">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs">
-                            <li><a href="#infoTab" data-toggle="tab">Información Básica</a>
+                            <li class="active"><a href="#infoTab" data-toggle="tab">Información Básica</a>
                             </li>
-                            <li class="active"><a href="#gradosTab" data-toggle="tab">Grados y Aulas</a>
+                            <li><a href="#gradosTab" data-toggle="tab">Grados y Aulas</a>
                             </li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane fade" id="infoTab">
+                            <div class="tab-pane fade in active" id="infoTab">
                                 <br/>
                                 <div class="col-lg-6">
                                     <form role="form">
@@ -43,7 +43,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="tab-pane fade in active" id="gradosTab">
+                            <div class="tab-pane fade" id="gradosTab">
                                 <br/>
                                 <div class="col-lg-6">
                                     <div class="row">

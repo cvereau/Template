@@ -38,32 +38,9 @@
                                         </div>
                                         <div id="collapseOne" class="panel-collapse collapse">
                                             <div class="panel-body">
-                                                <!--Grados-->
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading">
-                                                        <h4 class="panel-title">
-                                                            <a data-toggle="collapse" data-parent="#collapseOne" href="#collapsePG">Primer Grado</a>
-                                                        </h4>
-                                                    </div>
-                                                    <div id="collapsePG" class="panel-collapse collapse">
-                                                        <div class="panel-body">
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading">
-                                                        <h4 class="panel-title">
-                                                            <a data-toggle="collapse" data-parent="#collapseOne" href="#collapseSG">Segundo Grado</a>
-                                                        </h4>
-                                                    </div>
-                                                    <div id="collapseSG" class="panel-collapse collapse">
-                                                        <div class="panel-body">
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/Grados-->
+                                                <fieldset>
+                                                    <legend></legend>
+                                                </fieldset>
                                             </div>
                                         </div>
                                     </div>
@@ -75,7 +52,12 @@
                                         </div>
                                         <div id="collapseTwo" class="panel-collapse collapse">
                                             <div class="panel-body">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                                <fieldset>
+                                                    <legend>Primer Grado</legend>
+                                                    <a href="#">Matematica</a><br/>
+                                                    <a href="#">Fisica</a><br/>
+                                                    <a href="#">Quimica</a><br/>
+                                                </fieldset>
                                             </div>
                                         </div>
                                     </div>
